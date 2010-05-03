@@ -1,0 +1,9 @@
+;; -*- scheme -*-
+
+((egg "spiffy-request-vars.egg")
+ (synopsis "Provides easy access to variables from HTTP requests")
+ (author "<a href=\"http://chicken.wiki.br/users/mario-domenech-goulart\">Mario Domenech Goulart</a>")
+ (category web)
+ (license "BSD")
+ (depends (intarweb 0.3) uri-common spiffy)
+ (files "spiffy-request-vars.scm" "spiffy-request-vars.setup"))

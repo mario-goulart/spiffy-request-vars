@@ -1,0 +1,8 @@
+;; -*- scheme -*-
+(compile -s -O2 spiffy-request-vars.scm -j spiffy-request-vars)
+(compile -s -O2 spiffy-request-vars.import.scm)
+
+(install-extension
+  'spiffy-request-vars
+  '("spiffy-request-vars.so" "spiffy-request-vars.import.so")
+  `((version 0.5)))
