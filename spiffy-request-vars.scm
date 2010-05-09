@@ -40,9 +40,9 @@
 (define (as-number var vals)
   (and-let* ((val (alist-ref var vals)))
     (string->number val)))
-  
+
 (define (request-vars #!key (source 'both) max-content-length)
-    
+
   (let* ((content-matters? (not (memq (request-method (current-request)) '(GET HEAD))))
          (get-vars (and (memq source '(both query-string))
                         (uri-query (request-uri (current-request)))))
@@ -78,11 +78,11 @@
   (syntax-rules ()
     ((_ $ () form . forms)
      (begin form . forms))
-    
+
     ((_ $ ((var converter) . more-bindings) forms ...)
      (let* ((var ($ (quote var) converter)))
        (with-request-vars* $ more-bindings forms ...)))
-    
+
     ((_ $ (var . more-bindings) forms ...)
       (let* ((var ($ (quote var))))
         (with-request-vars* $ more-bindings forms ...)))))
