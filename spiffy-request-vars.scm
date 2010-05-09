@@ -65,7 +65,7 @@
       (let* ((var (if (string? var)
                       (string->symbol var)
                       var))
-             (vals (or get-vars request-body)))
+             (vals (or request-body get-vars)))
 
         (if (procedure? default/converter)
             (default/converter var vals)

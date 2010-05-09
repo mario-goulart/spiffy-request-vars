@@ -5,4 +5,4 @@
 (install-extension
   'spiffy-request-vars
   '("spiffy-request-vars.so" "spiffy-request-vars.import.so")
-  `((version 0.6)))
+  `((version 0.7)))
