@@ -55,11 +55,13 @@
                             content-length ;; sometimes this header does not exist
                             (> content-length max-content-length))
                    (error 'request-vars "content-length exceeds the provided max-content-length."))
-                 (let ((body (read-string (or max-content-length content-length)
-                                          (request-port (current-request)))))
-                   (case (header-value 'content-type headers)
-                     ((application/x-www-form-urlencoded) (form-urldecode body))
-                     (else body)))))))
+                 (if (and content-length (zero? content-length))
+                     #f
+                     (let ((body (read-string (or max-content-length content-length)
+                                              (request-port (current-request)))))
+                       (case (header-value 'content-type headers)
+                         ((application/x-www-form-urlencoded) (form-urldecode body))
+                         (else body))))))))
 
     (lambda (var #!optional default/converter)
       (let* ((var (if (string? var)
