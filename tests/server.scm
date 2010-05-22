@@ -31,4 +31,5 @@
 
 (define-page "as-hash-table"
   (lambda ()
-    (show (hash-table->alist ($ 'var as-hash-table)))))
+    (and-let* ((var ($ 'var as-hash-table)))
+      (show (hash-table->alist var)))))
