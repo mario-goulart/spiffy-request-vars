@@ -15,7 +15,7 @@
               (print-error-message exn))))))
 
 (define (show var)
-  (with-output-to-string (cut pp var)))
+  (with-output-to-string (cut write var)))
 
 (define-page "as-string" (lambda () (show ($ 'var))))
 
