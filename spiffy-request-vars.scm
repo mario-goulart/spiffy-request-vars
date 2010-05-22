@@ -5,10 +5,10 @@
    true-boolean-values
 
    ;; Converters
-   as-boolean as-list as-number
+   as-boolean as-list as-number as-alist as-vector as-hash-table
    )
 
-(import chicken scheme extras ports files data-structures)
+(import chicken scheme extras ports files data-structures srfi-69)
 (use srfi-1 srfi-13 intarweb uri-common spiffy)
 
 (define true-boolean-values
@@ -40,6 +40,43 @@
 (define (as-number var vals)
   (and-let* ((val (alist-ref var vals)))
     (string->number val)))
+
+(define (build-alist var vars/vals converter)
+  (let* ((var (->string var))
+         (alist
+          (let loop ((vars/vals vars/vals))
+            (if (null? vars/vals)
+                '()
+                (let* ((var/val (car vars/vals))
+                       (current-var (symbol->string (car var/val)))
+                       (tokens (string-split current-var ".")))
+                  (if (and (not (null? (cdr tokens)))
+                           (equal? var (car tokens)))
+                      (let ((idx (converter (cadr tokens))))
+                        (cons (cons idx
+                                    (cdr var/val))
+                              (loop (cdr vars/vals))))
+                      (loop (cdr vars/vals))))))))
+    (if (null? alist)
+        #f
+        alist)))
+
+(define (as-alist var vars/vals)
+  (build-alist var vars/vals string->symbol))
+
+(define (as-vector var vars/vals)
+  (and-let* ((alist (build-alist var vars/vals string->number)))
+    (let* ((max-idx (car (sort (delete #f (map car alist)) >)))
+           (vec (make-vector (add1 max-idx))))
+      (for-each (lambda (idx/val)
+                  (vector-set! vec (car idx/val) (cdr idx/val)))
+                alist)
+      vec)))
+
+(define (as-hash-table var vars/vals)
+  (and-let* ((alist (build-alist var vars/vals string->symbol)))
+    (alist->hash-table alist)))
+
 
 (define (request-vars #!key (source 'both) max-content-length)
 
