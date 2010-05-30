@@ -70,3 +70,31 @@
   (lambda ()
     (with-request-vars ((var as-hash-table))
         (and var (show (hash-table->alist var))))))
+
+
+;;; test1
+(define-page "test1"
+  (lambda ()
+    (with-request-vars (foo (bar as-list) (baz 5))
+        (show (list foo bar baz)))))
+
+
+;;; test2
+(define-page "test2"
+  (lambda ()
+    (with-request-vars* $ (foo (bar as-list) (baz 5))
+      (show (list foo bar baz)))))
+
+
+;;; test3
+(define-page "test3"
+  (lambda ()
+    (with-request-vars ((foo as-alist) (bar as-number) (baz as-vector) (bool as-boolean))
+      (show (list foo bar baz bool)))))
+
+
+;;; test4
+(define-page "test4"
+  (lambda ()
+    (with-request-vars* $ ((foo as-alist) (bar as-number) (baz as-vector) (bool as-boolean))
+      (show (list foo bar baz bool)))))

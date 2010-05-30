@@ -109,4 +109,40 @@
 (test #f (get "/wrv-as-hash-table?var=c"))
 
 
+;;; test1
+(test '(#f #f 5)             (get "/test1"))
+(test '("10" #f 5)           (get "/test1?foo=10"))
+(test '("10" ("1") 5)        (get "/test1?foo=10&bar=1"))
+(test '("10" ("1" "2") 5)    (get "/test1?foo=10&bar=1&bar=2"))
+(test '("10" ("1" "2") "-8") (get "/test1?foo=10&bar=1&bar=2&baz=-8"))
+
+
+;;; test2
+(test '(#f #f 5)             (get "/test2"))
+(test '("10" #f 5)           (get "/test2?foo=10"))
+(test '("10" ("1") 5)        (get "/test2?foo=10&bar=1"))
+(test '("10" ("1" "2") 5)    (get "/test2?foo=10&bar=1&bar=2"))
+(test '("10" ("1" "2") "-8") (get "/test2?foo=10&bar=1&bar=2&baz=-8"))
+
+
+;;; test3
+(test '(#f #f #f #f) (get "/test3"))
+
+(test '(((A . "0") (B . "1")) 0 #("a" "b") #t)
+      (get "/test3?foo.A=0&foo.B=1&bar=0&baz.0=a&baz.1=b&bool=yes"))
+
+(test '(#f #f #f #f)
+      (get "/test3?foo=0&bar=a&baz=0&bool=3"))
+
+
+;;; test4
+(test '(#f #f #f #f) (get "/test4"))
+
+(test '(((A . "0") (B . "1")) 0 #("a" "b") #t)
+      (get "/test4?foo.A=0&foo.B=1&bar=0&baz.0=a&baz.1=b&bool=yes"))
+
+(test '(#f #f #f #f)
+      (get "/test4?foo=0&bar=a&baz=0&bool=3"))
+
+
 (test-end "spiffy-request-vars")
