@@ -111,7 +111,7 @@
             (let ((vals (req-vars/vals var vals)))
               (if (null? vals)
                   default/converter
-                  (car vals))))))))
+                  (and vals (car vals)))))))))
 
 (define-syntax with-request-vars*
   (syntax-rules ()
