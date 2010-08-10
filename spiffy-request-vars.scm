@@ -15,7 +15,7 @@
   ;; A list of strings to be considered `#t' for request variables
   ;; when `as-boolean' is used as converter.
   (make-parameter
-   '("y" "yes" "1" "on")))
+   '("y" "yes" "1" "on" "true")))
 
 (define (req-vars/vals var vars/vals)
   (and vars/vals
@@ -29,7 +29,8 @@
 
 (define (as-boolean var vals)
   (and-let* ((val (alist-ref var vals)))
-    (not (not (member val (true-boolean-values) string-ci=?)))))
+    (or (eqv? #t val)
+	(not (not (member val (true-boolean-values) string-ci=?))))))
 
 (define (as-list var vals)
   (let ((vals (req-vars/vals var vals)))
