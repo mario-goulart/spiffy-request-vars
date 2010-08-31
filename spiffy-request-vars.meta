@@ -2,7 +2,7 @@
 
 ((egg "spiffy-request-vars.egg")
  (synopsis "Provides easy access to variables from HTTP requests")
- (author "<a href=\"http://chicken.wiki.br/users/mario-domenech-goulart\">Mario Domenech Goulart</a>")
+ (author "<a href=\"http://wiki.call-cc.org/users/mario-domenech-goulart\">Mario Domenech Goulart</a>")
  (category web)
  (license "BSD")
  (depends (intarweb 0.3) uri-common spiffy)
