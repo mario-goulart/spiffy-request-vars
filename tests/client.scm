@@ -14,6 +14,7 @@
 ;;; Strings
 (test #f (get "/as-string"))
 (test #f (get "/wrv-as-string"))
+(test "" (get "/wrv-as-string?var="))
 
 (test "a" (get "/as-string?var=a"))
 (test "a" (get "/wrv-as-string?var=a"))
@@ -28,6 +29,7 @@
 ;;; Numbers
 (test #f (get "/as-number"))
 (test #f (get "/wrv-as-number"))
+(test #f (get "/wrv-as-number?var="))
 
 (test 3 (get "/as-number?var=3"))
 (test 3 (get "/wrv-as-number?var=3"))
@@ -42,6 +44,7 @@
 ;;; Booleans
 (test #f (get "/as-boolean"))
 (test #f (get "/wrv-as-boolean"))
+(test #f (get "/wrv-as-boolean?var="))
 
 (test #t (get "/as-boolean?var=yes"))
 (test #t (get "/wrv-as-boolean?var=yes"))
@@ -59,6 +62,7 @@
 ;;; List
 (test #f (get "/as-list"))
 (test #f (get "/wrv-as-list"))
+(test '("") (get "/wrv-as-list?var="))
 
 (test '("a" "b") (get "/as-list?var=a;var=b"))
 (test '("a" "b") (get "/wrv-as-list?var=a;var=b"))
@@ -73,6 +77,7 @@
 ;;; Vectors
 (test #f (get "/as-vector"))
 (test #f (get "/wrv-as-vector"))
+(test '#("") (get "/wrv-as-vector?var.0="))
 
 (test '#("a" "b") (get "/as-vector?var.0=a;var.1=b"))
 (test '#("a" "b") (get "/wrv-as-vector?var.0=a;var.1=b"))
@@ -90,6 +95,7 @@
 ;;; Alists
 (test #f (get "/as-list"))
 (test #f (get "/wrv-as-alist"))
+(test '((A . "")) (get "/wrv-as-alist?var.A="))
 
 (test '((A . "a") (B . "b")) (get "/as-alist?var.A=a;var.B=b"))
 (test '((A . "a") (B . "b")) (get "/wrv-as-alist?var.A=a;var.B=b"))
@@ -104,6 +110,7 @@
 
 (test '((B . "b") (A . "a")) (get "/as-hash-table?var.A=a;var.B=b"))
 (test '((B . "b") (A . "a")) (get "/wrv-as-hash-table?var.A=a;var.B=b"))
+(test '((A . "")) (get "/wrv-as-hash-table?var.A="))
 
 (test #f (get "/as-hash-table?var=c"))
 (test #f (get "/wrv-as-hash-table?var=c"))
@@ -115,7 +122,6 @@
 (test '("10" ("1") 5)        (get "/test1?foo=10&bar=1"))
 (test '("10" ("1" "2") 5)    (get "/test1?foo=10&bar=1&bar=2"))
 (test '("10" ("1" "2") "-8") (get "/test1?foo=10&bar=1&bar=2&baz=-8"))
-
 
 ;;; test2
 (test '(#f #f 5)             (get "/test2"))
@@ -143,6 +149,28 @@
 
 (test '(#f #f #f #f)
       (get "/test4?foo=0&bar=a&baz=0&bool=3"))
+
+
+;;; test5
+(test '("" "" "")
+      (get "/test5?foo=&bar=&baz="))
+
+(test '("" "2" "")
+      (get "/test5?foo=&bar=2&baz="))
+
+(test '("1" "2" "3")
+      (get "/test5?foo=1&bar=2&baz=3"))
+
+
+;;; test6
+(test '("" "" "")
+      (get "/test6?foo=&bar=&baz="))
+
+(test '("" "2" "")
+      (get "/test6?foo=&bar=2&baz="))
+
+(test '("1" "2" "3")
+      (get "/test6?foo=1&bar=2&baz=3"))
 
 
 (test-end "spiffy-request-vars")
