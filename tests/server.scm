@@ -98,3 +98,17 @@
   (lambda ()
     (with-request-vars* $ ((foo as-alist) (bar as-number) (baz as-vector) (bool as-boolean))
       (show (list foo bar baz bool)))))
+
+
+;;; test5
+(define-page "test5"
+  (lambda ()
+    (with-request-vars (foo bar baz)
+      (show (list foo bar baz)))))
+
+
+;;; test6
+(define-page "test6"
+  (lambda ()
+    (with-request-vars* $ (foo bar baz)
+      (show (list foo bar baz)))))
