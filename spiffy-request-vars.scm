@@ -18,14 +18,15 @@
    '("y" "yes" "1" "on" "true")))
 
 (define (req-vars/vals var vars/vals)
-  (and vars/vals
-       (let loop ((vars/vals vars/vals))
-         (if (null? vars/vals)
-             '()
-             (let ((var/val (car vars/vals)))
-               (if (eq? var (car var/val))
-                   (cons (cdr var/val) (loop (cdr vars/vals)))
-                   (loop (cdr vars/vals))))))))
+  (if vars/vals
+      (let loop ((vars/vals vars/vals))
+        (if (null? vars/vals)
+            '()
+            (let ((var/val (car vars/vals)))
+              (if (eq? var (car var/val))
+                  (cons (cdr var/val) (loop (cdr vars/vals)))
+                  (loop (cdr vars/vals))))))
+      '()))
 
 (define (as-boolean var vals)
   (and-let* ((val (alist-ref var vals)))
@@ -99,7 +100,8 @@
                                               (request-port (current-request)))))
                        (case (header-value 'content-type headers)
                          ((application/x-www-form-urlencoded) (form-urldecode body))
-                         (else body))))))))
+                         (else #f) ;; not supported
+                         )))))))
 
     (lambda (var #!optional default/converter)
       (let* ((var (if (string? var)
@@ -112,7 +114,7 @@
             (let ((vals (req-vars/vals var vals)))
               (if (null? vals)
                   default/converter
-                  (and vals (car vals)))))))))
+                  (car vals))))))))
 
 (define-syntax with-request-vars*
   (syntax-rules ()
