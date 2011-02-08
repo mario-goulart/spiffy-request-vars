@@ -15,6 +15,7 @@
 (test #f (get "/as-string"))
 (test #f (get "/wrv-as-string"))
 (test "" (get "/wrv-as-string?var="))
+(test #f (get "/as-nonempty-string?var="))
 
 (test "a" (get "/as-string?var=a"))
 (test "a" (get "/wrv-as-string?var=a"))
@@ -24,6 +25,19 @@
 
 (test "1" (get "/as-string?var=1"))
 (test "1" (get "/wrv-as-string?var=1"))
+
+
+;;; Symbols
+(test #f (get "/as-symbol"))
+(test #f (get "/wrv-as-symbol"))
+(test '|| (get "/wrv-as-symbol?var="))
+(test #f (get "/as-nonempty-symbol?var="))
+
+(test 'a (get "/as-symbol?var=a"))
+(test 'a (get "/wrv-as-symbol?var=a"))
+
+(test 'a (get "/as-symbol?var=a;var=b"))
+(test 'a (get "/wrv-as-symbol?var=a;var=b"))
 
 
 ;;; Numbers
@@ -39,6 +53,8 @@
 
 (test #f (get "/as-number?var=a"))
 (test #f (get "/wrv-as-number?var=a"))
+(test #f (get "/as-nonempty-number?var="))
+(test 3 (get "/as-nonempty-number?var=3"))
 
 
 ;;; Booleans

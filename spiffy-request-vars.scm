@@ -5,7 +5,7 @@
    true-boolean-values
 
    ;; Converters
-   as-boolean as-list as-number as-alist as-vector as-hash-table
+   as-string as-symbol as-boolean as-list as-number as-alist as-vector as-hash-table nonempty
    )
 
 (import chicken scheme extras ports files data-structures srfi-69)
@@ -27,6 +27,13 @@
                   (cons (cdr var/val) (loop (cdr vars/vals)))
                   (loop (cdr vars/vals))))))
       '()))
+
+(define (as-string var vars/vals)
+  (alist-ref var vars/vals))
+
+(define (as-symbol var vals)
+  (and-let* ((val (alist-ref var vals)))
+    (string->symbol val)))
 
 (define (as-boolean var vals)
   (and-let* ((val (alist-ref var vals)))
@@ -79,6 +86,10 @@
   (and-let* ((alist (build-alist var vars/vals string->symbol)))
     (alist->hash-table alist)))
 
+(define (nonempty converter)
+  (lambda (var vars/vals)
+    (and-let* ((val (alist-ref var vars/vals)))
+      (and (not (equal? val "")) (converter var vars/vals)))))
 
 (define (request-vars #!key (source 'both) max-content-length)
 

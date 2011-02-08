@@ -19,6 +19,8 @@
 
 (define-page "as-string" (lambda () (show ($ 'var))))
 
+(define-page "as-symbol" (lambda () (show ($ 'var as-symbol))))
+
 (define-page "as-number" (lambda () (show ($ 'var as-number))))
 
 (define-page "as-boolean" (lambda () (show ($ 'var as-boolean))))
@@ -34,11 +36,22 @@
     (and-let* ((var ($ 'var as-hash-table)))
       (show (hash-table->alist var)))))
 
+(define-page "as-nonempty-string" (lambda () (show ($ 'var (nonempty as-string)))))
+
+(define-page "as-nonempty-symbol" (lambda () (show ($ 'var (nonempty as-symbol)))))
+
+(define-page "as-nonempty-number" (lambda () (show ($ 'var (nonempty as-number)))))
+
 
 ;;; with-request-vars
 (define-page "wrv-as-string"
   (lambda ()
     (with-request-vars* $ (var)
+        (show var))))
+
+(define-page "wrv-as-symbol"
+  (lambda ()
+    (with-request-vars ((var as-symbol))
         (show var))))
 
 (define-page "wrv-as-number"
