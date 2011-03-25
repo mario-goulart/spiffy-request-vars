@@ -6,4 +6,4 @@
  (category web)
  (license "BSD")
  (depends (intarweb 0.3) uri-common spiffy)
- (files "spiffy-request-vars.scm" "spiffy-request-vars.setup"))
+ (files "spiffy-request-vars.setup" "spiffy-request-vars.scm" "spiffy-request-vars.meta"))
