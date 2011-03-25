@@ -5,4 +5,5 @@
  (author "<a href=\"http://wiki.call-cc.org/users/mario-domenech-goulart\">Mario Domenech Goulart</a>")
  (category web)
  (license "BSD")
- (depends (intarweb 0.3) uri-common spiffy))
+ (depends (intarweb 0.3) uri-common spiffy)
+ (files "spiffy-request-vars.setup" "spiffy-request-vars.scm" "spiffy-request-vars.meta" "spiffy-request-vars.release-info" "tests/server.scm" "tests/client.scm"))
