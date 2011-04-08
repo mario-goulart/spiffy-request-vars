@@ -33,8 +33,8 @@
 
 (define-page "as-hash-table"
   (lambda ()
-    (and-let* ((var ($ 'var as-hash-table)))
-      (show (hash-table->alist var)))))
+    (show (and-let* ((var ($ 'var as-hash-table)))
+            (hash-table->alist var)))))
 
 (define-page "as-nonempty-string" (lambda () (show ($ 'var (nonempty as-string)))))
 
@@ -82,7 +82,7 @@
 (define-page "wrv-as-hash-table"
   (lambda ()
     (with-request-vars ((var as-hash-table))
-        (and var (show (hash-table->alist var))))))
+        (show (and var (hash-table->alist var))))))
 
 
 ;;; test1
