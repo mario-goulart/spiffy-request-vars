@@ -133,12 +133,14 @@
      (begin form . forms))
 
     ((_ $ ((var converter) . more-bindings) forms ...)
-     (let* ((var ($ (quote var) converter)))
-       (with-request-vars* $ more-bindings forms ...)))
+     (let* (($$ $)
+            (var ($$ (quote var) converter)))
+       (with-request-vars* $$ more-bindings forms ...)))
 
     ((_ $ (var . more-bindings) forms ...)
-      (let* ((var ($ (quote var))))
-        (with-request-vars* $ more-bindings forms ...)))))
+      (let* (($$ $)
+             (var ($$ (quote var))))
+        (with-request-vars* $$ more-bindings forms ...)))))
 
 (define-syntax with-request-vars
    (syntax-rules ()
