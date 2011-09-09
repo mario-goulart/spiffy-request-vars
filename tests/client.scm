@@ -1,13 +1,37 @@
 #!/usr/bin/csi -script
 
-(use test http-client spiffy-request-vars)
+(use test http-client spiffy-request-vars intarweb uri-common)
+
+(define server-uri "http://localhost:8080")
 
 (define (get path/vars)
   (let ((val (with-input-from-request
-              (string-append "http://localhost:8080" path/vars)
+              (string-append server-uri path/vars)
               #f read)))
     (close-all-connections!)
     val))
+
+(define (post path vars/vals #!optional (query-string-vars/vals '()))
+  (let* ((vars/vals (and (not (null? vars/vals)) (form-urlencode vars/vals)))
+         (resp (with-input-from-request
+                (make-request
+                 uri: (uri-reference
+                       (make-pathname server-uri
+                                      (string-append
+                                       path
+                                       (if (null? query-string-vars/vals)
+                                           ""
+                                           (string-append
+                                            "?"
+                                            (form-urlencode query-string-vars/vals))))))
+                 headers: (headers `((content-length ,(string-length vars/vals))
+                                     (content-type application/x-www-form-urlencoded)))
+                 method: 'POST)
+                (lambda ()
+                  (print (or vars/vals "")))
+                read)))
+    (close-all-connections!)
+    resp))
 
 (test-begin "spiffy-request-vars")
 
@@ -188,5 +212,16 @@
 (test '("1" "2" "3")
       (get "/test6?foo=1&bar=2&baz=3"))
 
+
+;;; test7
+(test '("1" "2" "3" "4") (post "/test7" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
+
+
+;;; test8
+(test '(#f #f #f "4") (post "/test8" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
+
+
+;;; test9
+(test '("1" "2" "3" #f) (post "/test9" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
 
 (test-end "spiffy-request-vars")

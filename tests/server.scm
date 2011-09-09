@@ -125,3 +125,25 @@
   (lambda ()
     (with-request-vars* $ (foo bar baz)
       (show (list foo bar baz)))))
+
+
+;;; test7 (POST)
+(define-page "test7"
+  (lambda ()
+    (with-request-vars* $ (foo bar baz blah)
+      (show (list foo bar baz blah))))
+  method: 'POST)
+
+;;; test8
+(define-page "test8"
+  (lambda ()
+    (with-request-vars* (request-vars source: 'query-string) (foo bar baz blah)
+      (show (list foo bar baz blah))))
+  method: 'POST)
+
+;;; test9
+(define-page "test9"
+  (lambda ()
+    (with-request-vars* (request-vars source: 'request-body) (foo bar baz blah)
+      (show (list foo bar baz blah))))
+  method: 'POST)

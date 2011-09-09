@@ -94,8 +94,9 @@
 (define (request-vars #!key (source 'both) max-content-length)
 
   (let* ((content-matters? (not (memq (request-method (current-request)) '(GET HEAD))))
-         (get-vars (and (memq source '(both query-string))
-                        (uri-query (request-uri (current-request)))))
+         (query-string-vars
+          (and (memq source '(both query-string))
+               (uri-query (request-uri (current-request)))))
          (request-body
           (and (memq source '(both request-body))
                content-matters? ;; don't bother reading the contents when method is either GET or HEAD
@@ -118,8 +119,12 @@
       (let* ((var (if (string? var)
                       (string->symbol var)
                       var))
-             (vals (or request-body get-vars)))
-
+             (vals (case source
+                     ((both) (append (or request-body '())
+                                     (or query-string-vars '())))
+                     ((request-body) request-body)
+                     ((query-string) query-string-vars)
+                     (else (error 'request-vars (conc "Unkown source: " source))))))
         (if (procedure? default/converter)
             (default/converter var vals)
             (let ((vals (req-vars/vals var vals)))
