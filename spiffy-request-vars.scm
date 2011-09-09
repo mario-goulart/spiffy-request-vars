@@ -113,18 +113,18 @@
                        (case (header-value 'content-type headers)
                          ((application/x-www-form-urlencoded) (form-urldecode body))
                          (else #f) ;; not supported
-                         )))))))
+                         ))))))
+         (vals (case source
+                 ((both) (append (or request-body '())
+                                 (or query-string-vars '())))
+                 ((request-body) request-body)
+                 ((query-string) query-string-vars)
+                 (else (error 'request-vars (conc "Unkown source: " source))))))
 
     (lambda (var #!optional default/converter)
       (let* ((var (if (string? var)
                       (string->symbol var)
-                      var))
-             (vals (case source
-                     ((both) (append (or request-body '())
-                                     (or query-string-vars '())))
-                     ((request-body) request-body)
-                     ((query-string) query-string-vars)
-                     (else (error 'request-vars (conc "Unkown source: " source))))))
+                      var)))
         (if (procedure? default/converter)
             (default/converter var vals)
             (let ((vals (req-vars/vals var vals)))
