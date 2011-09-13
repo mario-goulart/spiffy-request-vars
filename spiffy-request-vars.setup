@@ -1,6 +1,6 @@
 ;; -*- scheme -*-
-(compile -s -O2 spiffy-request-vars.scm -j spiffy-request-vars)
-(compile -s -O2 spiffy-request-vars.import.scm)
+(compile -s -O3 spiffy-request-vars.scm -j spiffy-request-vars)
+(compile -s -O3 spiffy-request-vars.import.scm)
 
 (install-extension
   'spiffy-request-vars
