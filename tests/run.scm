@@ -5,7 +5,7 @@
    (awful-start
     (lambda ()
       (load-apps (list "server.scm")))))
-  (lambda ()
-    (load "client.scm")))
+ (lambda ()
+   (load "client.scm")))
 
 (test-exit)
