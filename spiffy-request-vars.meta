@@ -6,4 +6,5 @@
  (category web)
  (license "BSD")
  (depends (intarweb 0.3) uri-common spiffy)
+ (test-depends server-test awful test)
  (files "spiffy-request-vars.setup" "spiffy-request-vars.scm" "spiffy-request-vars.meta" "spiffy-request-vars.release-info" "tests/server.scm" "tests/client.scm"))
