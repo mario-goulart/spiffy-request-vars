@@ -1,10 +1,6 @@
-#!/usr/bin/awful
-
 (use srfi-69 awful spiffy-request-vars spiffy intarweb uri-common html-tags)
 
 (page-template (lambda (contents . more) contents))
-
-(debug-log (current-error-port))
 
 (page-exception-message
  (lambda (exn)

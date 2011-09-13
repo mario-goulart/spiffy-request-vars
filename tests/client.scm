@@ -1,5 +1,3 @@
-#!/usr/bin/csi -script
-
 (use test http-client spiffy-request-vars intarweb uri-common)
 
 (define server-uri "http://localhost:8080")
