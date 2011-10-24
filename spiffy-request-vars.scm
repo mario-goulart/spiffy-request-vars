@@ -38,7 +38,7 @@
 (define (as-boolean var vals)
   (and-let* ((val (alist-ref var vals)))
     (or (eqv? #t val)
-	(not (not (member val (true-boolean-values) string-ci=?))))))
+        (not (not (member val (true-boolean-values) string-ci=?))))))
 
 (define (as-list var vals)
   (let ((vals (req-vars/vals var vals)))
