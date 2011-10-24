@@ -120,8 +120,9 @@
                  ((request-body) request-body)
                  ((query-string) query-string-vars)
                  (else (error 'request-vars (conc "Unkown source: " source))))))
-
-    (lambda (var #!optional default/converter)
+    (case-lambda
+     (() vals)
+     ((var #!optional default/converter)
       (let* ((var (if (string? var)
                       (string->symbol var)
                       var)))
@@ -130,7 +131,7 @@
             (let ((vals (req-vars/vals var vals)))
               (if (null? vals)
                   default/converter
-                  (car vals))))))))
+                  (car vals)))))))))
 
 (define-syntax with-request-vars*
   (syntax-rules ()
