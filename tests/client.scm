@@ -1,4 +1,4 @@
-(use test http-client spiffy-request-vars intarweb uri-common)
+(use test http-client spiffy-request-vars intarweb uri-common srfi-1)
 
 (define server-uri "http://localhost:8080")
 
@@ -146,8 +146,12 @@
 (test #f (get "/as-hash-table"))
 (test #f (get "/wrv-as-hash-table"))
 
-(test '((B . "b") (A . "a")) (get "/as-hash-table?var.A=a;var.B=b"))
-(test '((B . "b") (A . "a")) (get "/wrv-as-hash-table?var.A=a;var.B=b"))
+(test #t (let ((res (get "/as-hash-table?var.A=a;var.B=b")))
+           (lset= equal? res '((A . "a") (B . "b")))))
+
+(test #t (let ((res (get "/wrv-as-hash-table?var.A=a;var.B=b")))
+           (lset= equal? res '((A . "a") (B . "b")))))
+
 (test '((A . "")) (get "/wrv-as-hash-table?var.A="))
 
 (test #f (get "/as-hash-table?var=c"))
