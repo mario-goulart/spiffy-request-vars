@@ -226,4 +226,75 @@
 ;;; test9
 (test '("1" "2" "3" #f) (post "/test9" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
 
+
+
+;;;
+;;; Compound variable names
+;;;
+
+;; Vectors
+(test #f (get "/compound/as-vector"))
+(test #f (get "/compound/wrv-as-vector"))
+(test '#("") (get "/compound/wrv-as-vector?var_0="))
+
+(test '#("a" "b") (get "/compound/as-vector?var_0=a;var_1=b"))
+(test '#("a" "b") (get "/compound/wrv-as-vector?var_0=a;var_1=b"))
+
+(test 3 (vector-length (get "/compound/as-vector?var_0=a;var_1=b;var_2=4;varc=4")))
+(test 3 (vector-length (get "/compound/wrv-as-vector?var_0=a;var_1=b;var_2=4;varc=4")))
+
+(test #f (get "/compound/as-vector?var=c"))
+(test #f (get "/compound/wrv-as-vector?var=c"))
+
+(test '#("a" "b") (get "/compound/as-vector?var_0=a;var_1=b;var3=c"))
+(test '#("a" "b") (get "/compound/wrv-as-vector?var_0=a;var_1=b;var3=c"))
+
+
+;; Alists
+(test #f (get "/compound/as-list"))
+(test #f (get "/compound/wrv-as-alist"))
+(test '((A . "")) (get "/compound/wrv-as-alist?var_A="))
+
+(test '((A . "a") (B . "b")) (get "/compound/as-alist?var_A=a;var_B=b"))
+(test '((A . "a") (B . "b")) (get "/compound/wrv-as-alist?var_A=a;var_B=b"))
+
+(test #f (get "/compound/as-alist?var=c"))
+(test #f (get "/compound/wrv-as-alist?var=c"))
+
+
+;; Hash-tables
+(test #f (get "/compound/as-hash-table"))
+(test #f (get "/compound/wrv-as-hash-table"))
+
+(test #t (let ((res (get "/compound/as-hash-table?var_A=a;var_B=b")))
+           (lset= equal? res '((A . "a") (B . "b")))))
+
+(test #t (let ((res (get "/compound/wrv-as-hash-table?var_A=a;var_B=b")))
+           (lset= equal? res '((A . "a") (B . "b")))))
+
+(test '((A . "")) (get "/compound/wrv-as-hash-table?var_A="))
+
+(test #f (get "/compound/as-hash-table?var=c"))
+(test #f (get "/compound/wrv-as-hash-table?var=c"))
+
+
+;; test3
+(test '(#f #f #f #f) (get "/compound/test3"))
+
+(test '(((A . "0") (B . "1")) 0 #("a" "b") #t)
+      (get "/compound/test3?foo_A=0&foo_B=1&bar=0&baz_0=a&baz_1=b&bool=yes"))
+
+(test '(#f #f #f #f)
+      (get "/compound/test3?foo=0&bar=a&baz=0&bool=3"))
+
+
+;; test4
+(test '(#f #f #f #f) (get "/compound/test4"))
+
+(test '(((A . "0") (B . "1")) 0 #("a" "b") #t)
+      (get "/compound/test4?foo_A=0&foo_B=1&bar=0&baz_0=a&baz_1=b&bool=yes"))
+
+(test '(#f #f #f #f)
+      (get "/compound/test4?foo=0&bar=a&baz=0&bool=3"))
+
 (test-end "spiffy-request-vars")
