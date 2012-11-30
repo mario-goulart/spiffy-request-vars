@@ -2,7 +2,7 @@
   (request-vars with-request-vars with-request-vars*
 
    ;; Parameters
-   true-boolean-values
+   true-boolean-values compound-variable-separator
 
    ;; Converters
    as-string as-symbol as-boolean as-list as-number as-alist as-vector as-hash-table nonempty
@@ -16,6 +16,10 @@
   ;; when `as-boolean' is used as converter.
   (make-parameter
    '("y" "yes" "1" "on" "true")))
+
+(define compound-variable-separator
+  ;; a string that separates names in compound objects
+  (make-parameter "."))
 
 (define (req-vars/vals var vars/vals)
   (if vars/vals
@@ -58,7 +62,7 @@
                 '()
                 (let* ((var/val (car vars/vals))
                        (current-var (symbol->string (car var/val)))
-                       (tokens (string-split current-var ".")))
+                       (tokens (string-split current-var (compound-variable-separator))))
                   (if (and (not (null? (cdr tokens)))
                            (equal? var (car tokens)))
                       (let ((idx (converter (cadr tokens))))
