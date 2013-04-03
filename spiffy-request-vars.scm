@@ -130,7 +130,7 @@
                  ((request-body) request-body)
                  ((query-string) query-string-vars)
                  (else (error 'request-vars
-                              (conc "Unkown source: " source))))))
+                              (conc "Unknown source: " source))))))
 
     (lambda (#!optional var default/converter)
       (if var
