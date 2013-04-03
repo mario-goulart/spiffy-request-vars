@@ -5,7 +5,8 @@
    true-boolean-values compound-variable-separator
 
    ;; Converters
-   as-string as-symbol as-boolean as-list as-number as-alist as-vector as-hash-table nonempty
+   as-string as-symbol as-boolean as-list as-number as-alist as-vector
+   as-hash-table nonempty
    )
 
 (import chicken scheme extras ports files data-structures srfi-69)
@@ -62,7 +63,8 @@
                 '()
                 (let* ((var/val (car vars/vals))
                        (current-var (symbol->string (car var/val)))
-                       (tokens (string-split current-var (compound-variable-separator))))
+                       (tokens (string-split current-var
+                                             (compound-variable-separator))))
                   (if (and (not (null? (cdr tokens)))
                            (equal? var (car tokens)))
                       (let ((idx (converter (cadr tokens))))
@@ -96,26 +98,30 @@
       (and (not (equal? val "")) (converter var vars/vals)))))
 
 (define (request-vars #!key (source 'both) max-content-length)
-
-  (let* ((content-matters? (not (memq (request-method (current-request)) '(GET HEAD))))
+  (let* ((content-matters? (not (memq (request-method (current-request))
+                                      '(GET HEAD))))
          (query-string-vars
           (and (memq source '(both query-string))
                (uri-query (request-uri (current-request)))))
          (request-body
           (and (memq source '(both request-body))
-               content-matters? ;; don't bother reading the contents when method is either GET or HEAD
+               content-matters? ;; don't bother reading the contents when
+                                ;; method is either GET or HEAD
                (let* ((headers (request-headers (current-request)))
                       (content-length (header-value 'content-length headers)))
                  (when (and max-content-length
                             content-length ;; sometimes this header does not exist
                             (> content-length max-content-length))
-                   (error 'request-vars "content-length exceeds the provided max-content-length."))
+                   (error 'request-vars
+                          "content-length exceeds the provided max-content-length."))
                  (if (and content-length (zero? content-length))
                      #f
-                     (let ((body (read-string (or max-content-length content-length)
-                                              (request-port (current-request)))))
+                     (let ((body (read-string
+                                  (or max-content-length content-length)
+                                  (request-port (current-request)))))
                        (case (header-value 'content-type headers)
-                         ((application/x-www-form-urlencoded) (form-urldecode body))
+                         ((application/x-www-form-urlencoded)
+                          (form-urldecode body))
                          (else #f) ;; not supported
                          ))))))
          (vals (case source
@@ -123,7 +129,8 @@
                                  (or query-string-vars '())))
                  ((request-body) request-body)
                  ((query-string) query-string-vars)
-                 (else (error 'request-vars (conc "Unkown source: " source))))))
+                 (else (error 'request-vars
+                              (conc "Unkown source: " source))))))
 
     (lambda (#!optional var default/converter)
       (if var
