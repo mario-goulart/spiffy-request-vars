@@ -1,6 +1,6 @@
 (use test http-client spiffy-request-vars intarweb uri-common srfi-1)
 
-(define server-uri "http://localhost:8080")
+(define server-uri (sprintf "http://localhost:~a" (server-port)))
 
 (define (get path/vars)
   (let ((val (with-input-from-request
