@@ -97,14 +97,15 @@
     (and-let* ((val (alist-ref var vars/vals)))
       (and (not (equal? val "")) (converter var vars/vals)))))
 
-(define (request-vars #!key (source 'both) max-content-length)
-  (let* ((content-matters? (not (memq (request-method (current-request))
-                                      '(GET HEAD))))
+(define (request-vars #!key (source 'request-method) max-content-length)
+  (let* ((req-method (request-method (current-request)))
+         (content-matters? (not (memq req-method '(GET HEAD))))
          (query-string-vars
-          (and (memq source '(both query-string))
+          (and (or (eq? req-method 'GET)
+                   (memq source '(both query-string)))
                (uri-query (request-uri (current-request)))))
          (request-body
-          (and (memq source '(both request-body))
+          (and (memq source '(both request-body request-method))
                content-matters? ;; don't bother reading the contents when
                                 ;; method is either GET or HEAD
                (let* ((headers (request-headers (current-request)))
@@ -127,6 +128,10 @@
          (vals (case source
                  ((both) (append (or request-body '())
                                  (or query-string-vars '())))
+                 ((request-method)
+                  (if content-matters?
+                      (or request-body '())
+                      (or query-string-vars '())))
                  ((request-body) request-body)
                  ((query-string) query-string-vars)
                  (else (error 'request-vars

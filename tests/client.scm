@@ -216,7 +216,7 @@
 
 
 ;;; test7
-(test '("1" "2" "3" "4") (post "/test7" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
+(test '("1" "2" "3" #f) (post "/test7" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
 
 
 ;;; test8
@@ -226,6 +226,13 @@
 ;;; test9
 (test '("1" "2" "3" #f) (post "/test9" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
 
+
+;;; test10
+(test '("1" "2" "3" #f) (post "/test10" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
+
+
+;;; test11
+(test '("1" "2" "3" "4") (post "/test11" '((foo . 1) (bar . 2) (baz . 3)) '((blah . 4))))
 
 
 ;;;

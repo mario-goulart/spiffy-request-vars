@@ -157,4 +157,18 @@
       (show (list foo bar baz blah))))
   method: 'POST)
 
+;;; test10
+(define-page* "test10"
+  (lambda ()
+    (with-request-vars* (request-vars source: 'request-method) (foo bar baz blah)
+      (show (list foo bar baz blah))))
+  method: 'POST)
+
+;;; test11
+(define-page* "test11"
+  (lambda ()
+    (with-request-vars* (request-vars source: 'both) (foo bar baz blah)
+      (show (list foo bar baz blah))))
+  method: 'POST)
+
 
