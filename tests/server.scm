@@ -1,17 +1,18 @@
-(use srfi-69 srfi-13 awful spiffy-request-vars spiffy intarweb uri-common html-tags)
+(use srfi-69 srfi-13 awful spiffy-request-vars spiffy intarweb uri-common)
+
+(enable-sxml #t)
 
 (page-template (lambda (contents . more) contents))
 
 (page-exception-message
  (lambda (exn)
-   (<pre> convert-to-entities?: #t
-          (with-output-to-string
+   `(pre ,(with-output-to-string
             (lambda ()
               (print-call-chain)
               (print-error-message exn))))))
 
 (define (show var)
-  (with-output-to-string (cut write var)))
+  `(literal ,(with-output-to-string (cut write var))))
 
 (define (define-page* path-suffix proc #!key (method 'get))
   (define-page path-suffix proc method: method)
