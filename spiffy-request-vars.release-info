@@ -20,3 +20,4 @@
 (release "0.15" old-uri)
 (release "0.16" old-uri)
 (release "0.17" old-uri)
+(release "0.18")
