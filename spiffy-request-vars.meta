@@ -1,10 +1,8 @@
 ;; -*- scheme -*-
 
-((egg "spiffy-request-vars.egg")
- (synopsis "Provides easy access to variables from HTTP requests")
- (author "<a href=\"http://wiki.call-cc.org/users/mario-domenech-goulart\">Mario Domenech Goulart</a>")
+((synopsis "Provides easy access to variables from HTTP requests")
+ (author "Mario Domenech Goulart")
  (category web)
  (license "BSD")
  (depends (intarweb 0.3) uri-common spiffy)
- (test-depends server-test (awful "0.36") test http-client)
- (files "spiffy-request-vars.setup" "spiffy-request-vars.scm" "spiffy-request-vars.meta" "spiffy-request-vars.release-info" "tests/server.scm" "tests/client.scm"))
+ (test-depends server-test (awful "0.36") test http-client))
