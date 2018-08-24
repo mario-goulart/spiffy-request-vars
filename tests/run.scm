@@ -1,4 +1,4 @@
-(use server-test test awful spiffy posix)
+(use server-test test spiffy posix)
 
 (test-server-port
  (cond ((get-environment-variable "SPIFFY_TEST_PORT")
@@ -10,9 +10,7 @@
 
 (with-test-server
  (lambda ()
-   (awful-start
-    (lambda ()
-      (load-apps (list "server.scm")))))
+   (load "server.scm"))
  (lambda ()
    (load "client.scm")))
 

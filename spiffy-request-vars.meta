@@ -5,4 +5,4 @@
  (category web)
  (license "BSD")
  (depends (intarweb 0.3) uri-common spiffy)
- (test-depends server-test (awful "0.36") test http-client))
+ (test-depends server-test test http-client))
