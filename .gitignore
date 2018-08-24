@@ -1,0 +1,7 @@
+spiffy-request-vars.build.sh
+spiffy-request-vars.import.scm
+spiffy-request-vars.import.so
+spiffy-request-vars.install.sh
+spiffy-request-vars.link
+spiffy-request-vars.so
+spiffy-request-vars.static.o
