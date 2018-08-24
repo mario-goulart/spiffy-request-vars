@@ -1,4 +1,13 @@
-(use srfi-69 srfi-13 spiffy-request-vars spiffy intarweb uri-common)
+(import scheme)
+(cond-expand
+  (chicken-4
+   (use srfi-69 srfi-13 spiffy-request-vars spiffy intarweb uri-common))
+  (chicken-5
+   (import (chicken port)
+           (chicken string))
+   (import intarweb spiffy spiffy-request-vars srfi-13 srfi-69 uri-common))
+  (else
+   (error "Unsupported CHICKEN version.")))
 
 (include "mini-awful.scm")
 

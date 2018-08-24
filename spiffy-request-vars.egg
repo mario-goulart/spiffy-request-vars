@@ -1,0 +1,19 @@
+;;; spiffy-request-vars.egg -*- scheme -*-
+
+((synopsis "Easy access to variables from HTTP requests")
+ (author "Mario Domenech Goulart")
+ (license "BSD")
+ (category web)
+ (dependencies intarweb
+               srfi-1
+               srfi-13
+               srfi-69
+               spiffy
+               uri-common)
+ (test-dependencies http-client
+                    server-test
+                    test)
+ (component-options
+  (csc-options "-O3" "-d1"))
+ (components
+  (extension spiffy-request-vars)))

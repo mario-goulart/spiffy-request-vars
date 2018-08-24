@@ -1,4 +1,14 @@
-(use test http-client spiffy-request-vars intarweb uri-common srfi-1)
+(import scheme)
+(cond-expand
+  (chicken-4
+   (use test http-client spiffy-request-vars intarweb uri-common srfi-1))
+  (chicken-5
+   (import (chicken format)
+           (chicken pathname))
+   (import http-client intarweb spiffy-request-vars srfi-1 test uri-common)
+   (define close-all-connections! close-idle-connections!))
+  (else
+   (error "Unsupported CHICKEN version.")))
 
 (define server-uri (sprintf "http://localhost:~a" (server-port)))
 
