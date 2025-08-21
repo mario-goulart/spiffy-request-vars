@@ -14,13 +14,14 @@
   (chicken-4
    (import chicken scheme extras ports files data-structures srfi-69)
    (use srfi-1 srfi-13 intarweb uri-common spiffy))
-  (chicken-5
+  ((or chicken-5 chicken-6)
    (import (chicken base)
            (chicken io)
            (chicken port)
            (chicken sort)
            (chicken string))
-   (import intarweb spiffy srfi-1 srfi-13 srfi-69 uri-common))
+   (import intarweb spiffy srfi-1 srfi-13 srfi-69 uri-common)
+   (cond-expand (chicken-6 (import (scheme base))) (else)))
   (else
    (error "Unsupported CHICKEN version.")))
 

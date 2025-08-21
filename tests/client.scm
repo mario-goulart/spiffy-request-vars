@@ -2,7 +2,7 @@
 (cond-expand
   (chicken-4
    (use test http-client spiffy-request-vars intarweb uri-common srfi-1))
-  (chicken-5
+  ((or chicken-5 chicken-6)
    (import (chicken format)
            (chicken pathname))
    (import http-client intarweb spiffy-request-vars srfi-1 test uri-common)
